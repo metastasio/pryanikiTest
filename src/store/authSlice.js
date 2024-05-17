@@ -3,20 +3,20 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const signIn = createAsyncThunk(
   'auth/signIn',
-  async (username, password, { rejectWithValue }) => {
+  async ({ username, password }) => {
     try {
-      const token = axios.post(
+      const token = await axios.post(
         'https://test.v5.pryaniky.com/ru/data/v3/testmethods/docs/login',
         {
           username,
           password,
         },
       );
-      console.log(token)
+      console.log(token);
 
-      return token.toJSON();
+      return token;
     } catch (error) {
-      return rejectWithValue(error.code);
+      console.log(error, 'ERROR');
     }
   },
 );
@@ -34,7 +34,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(signIn.fulfilled, (state, { payload }) => {
-      console.log(payload, 'PAYLOAD')
+      console.log(payload, 'PAYLOAD');
       // state.totalScore = payload;
     });
   },

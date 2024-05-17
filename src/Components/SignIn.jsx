@@ -6,18 +6,30 @@ export const SignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signIn(e.target.username.value, e.target.password.value));
-    console.log(e.target.username.value, 'SUBMIT');
-    console.log(e.target.password.value, 'SUBMIT');
+    const data = new FormData(e.target);
+    const username = data.get('username');
+    const password = data.get('password');
+
+    dispatch(signIn({ username, password }));
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor='username'></label>
-      <input id='username' type='text' placeholder='Имя пользователя' />
+      <input
+        id='username'
+        name='username'
+        type='text'
+        placeholder='Имя пользователя'
+      />
 
       <label htmlFor='password'></label>
-      <input id='password' type='password' placeholder='Пароль' />
+      <input
+        id='password'
+        name='password'
+        type='password'
+        placeholder='Пароль'
+      />
 
       <button>Войти</button>
     </form>
